@@ -6,25 +6,26 @@ import numpy as np
 if __name__ == '__main__':
     # create these first
     volts = ohm.Voltage(1, 5)
-    state = ohm.State()
-    one, axs = plt.subplots(3)
+    state = ohm.State(intial=.96)
 
     for index, x in enumerate(volts.amplitude):
-        time = values.getTimeFromIndex(index)               # get the time
+        time = values.getTimeFromIndex(index)             # get the time
 
-        current = ohm.Current(volts, state, time)           # update current
+        current = ohm.Current(volts, state, time)
+       # current.graphCurrentVsVoltage()
         charge = ohm.Charge(current, state, volts, time)    # update charge
-        state.setWFromCharge(charge, time)                  # set the charge'
+        state.setWFromCharge(charge, time)
+        state.printState()# set the charge'
         #for testing -----------------------------------------------------
-        one, axs = plt.subplots(3)
-        if index%100 == 0:
-            one.suptitle('voltage -> current -> charge')
-            axs[0].plot(np.arange(values.start, values.stop, values.steps), volts.amplitude)
-            axs[1].plot(np.arange(values.start, values.stop, values.steps), current.current)
-            axs[2].plot(np.arange(values.start, values.stop, values.steps), charge.charge)
         # for testing ----------------------------------------------------------------------------
-    plt.plot()
+
+    current = ohm.Current(volts, state, .01)
+    current.currentVoltage()
+
     state.graphWD()
+    state.graphW()
+
+
 
 
  #   volts.graph()
